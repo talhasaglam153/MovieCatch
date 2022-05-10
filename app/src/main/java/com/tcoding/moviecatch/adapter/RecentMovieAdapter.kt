@@ -1,6 +1,5 @@
 package com.tcoding.moviecatch.adapter
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.tcoding.moviecatch.R
 import com.tcoding.moviecatch.models.Result
 
-class MovieAdapter(private val isFirstScreen : Boolean = true): RecyclerView.Adapter<MovieAdapter.MyCustomHolder>() {
+class RecentMovieAdapter(private val isFirstScreen : Boolean = true): RecyclerView.Adapter<RecentMovieAdapter.MyCustomHolder>() {
 
     var liveData : List<Result>? = null
 
@@ -24,6 +23,8 @@ class MovieAdapter(private val isFirstScreen : Boolean = true): RecyclerView.Ada
         val txtTitle = itemView.findViewById<TextView>(R.id.txtTitle)
         val txtGenre = itemView.findViewById<TextView>(R.id.txtGenre)
         val posterView = itemView.findViewById<ImageView>(R.id.posterView)
+        var txtReleaseDate = itemView.findViewById<TextView>(R.id.txtReleaseDate)
+        var txtVoteAverage = itemView.findViewById<TextView>(R.id.txtVoteAverage)
 
         fun bindData(data : Result) {
             txtTitle.text = data.title
@@ -31,15 +32,17 @@ class MovieAdapter(private val isFirstScreen : Boolean = true): RecyclerView.Ada
             Glide.with(posterView)
                 .load("https://image.tmdb.org/t/p/w342/" + data.poster_path)
                 .into(posterView)
+            txtVoteAverage.text = data.vote_average.toString() + "/10"
+            txtReleaseDate.text = data.release_date
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieAdapter.MyCustomHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.popular_movie_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentMovieAdapter.MyCustomHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recent_movie_item, parent, false)
         return MyCustomHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MovieAdapter.MyCustomHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecentMovieAdapter.MyCustomHolder, position: Int) {
         holder.bindData(liveData!!.get(position))
     }
 

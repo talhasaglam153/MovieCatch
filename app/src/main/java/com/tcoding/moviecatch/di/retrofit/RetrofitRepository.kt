@@ -22,4 +22,17 @@ class RetrofitRepository @Inject constructor(private val retrofitServiceInstance
 
         })
     }
+
+    fun getRecentMovies(pageNumber: String, liveData: MutableLiveData<Movie>) {
+        retrofitServiceInstance.getRecentVideos(pageNumber).enqueue(object : Callback<Movie> {
+            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
+                liveData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Movie>, t: Throwable) {
+                liveData.postValue(null)
+            }
+
+        })
+    }
 }
